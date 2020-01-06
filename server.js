@@ -20,9 +20,11 @@ connection.once('open', () => {
 
 const exercisesRouter = require('./src/routes/exercises');
 const usersRouter = require('./src/routes/users');
+const authRouter = require('./src/routes/auth');
 
 app.use('/exercises', exercisesRouter);
 app.use('/users', usersRouter);
+app.use('/user', authRouter);
 
 
 

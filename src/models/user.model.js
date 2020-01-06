@@ -8,8 +8,25 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
-        minlength: 3
+        minlength: 3,
+        max: 255
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 3,
+        max: 255
+    },
+    password: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 6,
+        max: 1024
+    }
 }, {
         timestamps: true,
     });
