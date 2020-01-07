@@ -1,7 +1,8 @@
 const router = require('express').Router();
 let Exercise = require("../models/exercise.model.js");
+const verify = require('../verifyToken.js')
 
-router.route('/').get(async (req, res) => {
+router.get('/', verify, async (req, res) => {
     try {
         const exercises = await Exercise.find();
         return res.json(exercises);

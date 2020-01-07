@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
+const jwt = require('jsonwebtoken');
 
 router.route('/register').post(async (req, res) => {
 
@@ -48,6 +49,13 @@ router.route('/login').post(async (req, res) => {
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send("Invalid password.");
+
+    // Create JWT token
+    // Can be made to expire in for example an hour
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, {
+        expiresIn: 3600
+    });
+    res.header('auth-token', token).send(token);
 
     res.send('Logged in!');
 
