@@ -13,10 +13,10 @@ router.get('/', verify, async (req, res) => {
 
 router.route('/add').post(async (req, res) => {
     try {
-        const username = req.body.username;
+        //const username = req.body.username;
         const description = req.body.description;
-        const duration = Number(req.body.duration);
-        const date = Date.parse(req.body.date);
+        //const duration = Number(req.body.duration);
+        //const date = Date.parse(req.body.date);
 
         const newExercise = new Exercise({
             description,
@@ -33,7 +33,21 @@ router.route('/add').post(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
     try {
-        const exercises = await Exercise.findById(req.params.id);
+        const { id } = req.params;
+        const exercises = await Exercise.findById(id);
+        return res.json(exercises);
+
+    } catch (err) {
+        return res.json("Error: ", err);
+    }
+
+});
+
+// FIND AND POPULATE EXERCISES
+router.route('/:id').get(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const exercises = await Exercise.findById(id).populate('user');
         return res.json(exercises);
 
     } catch (err) {

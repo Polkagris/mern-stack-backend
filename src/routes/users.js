@@ -23,14 +23,6 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json("Error:" + err))
 });
 
-/* router.route('/:id').get(async (req, res) => {
-    try {
-        const userById = await User.findById(req.params.id);
-        return res.json(userById);
-    } catch (err) {
-        res.status(400).json("Error: ", err);
-    }
-}); */
 
 // GET NEW USER EXERCISE BY ID
 router.route('/:id').get(async (req, res) => {
@@ -40,28 +32,23 @@ router.route('/:id').get(async (req, res) => {
 
         res.send(user);
     } catch (error) {
-        res.status(400).json("Error: ", err);
+        res.status(400).json("Error: ", error);
     }
 });
 
 // CREATING A NEW REVIEW AND UPDATING PRODUCT review FIELD
 router.route('/:id').post(async (req, res) => {
-    Exercise.create(req.body)
-        .then((dbExercise) => {
-            return User.findOneAndUpdate(
-                { _id: req.params.id },
-                { exercises: dbExercise._id },
-                { new: true });
-        })
-        .then((dbUser) => {
-            res.json(dbUser);
-        })
-        .catch((err) => {
-            res.json(err);
-        });
+
+    try {
+        const userById = await User.findById(req.params.id).populate('exercises');
+        const newExercise = await Exercise.create(req.body)
+        userById.exercises.push(newExercise);
+        userById.save();
+        res.send(newExercise);
+    } catch (error) {
+        res.status(400).json("Error: ", error);
+    }
 })
-
-
 
 router.route('/update/:id').post(async (req, res) => {
     try {
