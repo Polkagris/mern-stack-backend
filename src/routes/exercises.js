@@ -19,10 +19,9 @@ router.route('/add').post(async (req, res) => {
         const date = Date.parse(req.body.date);
 
         const newExercise = new Exercise({
-            username,
             description,
-            duration,
-            date,
+            user
+
         });
         await newExercise.save()
         res.json("Exercise added!");

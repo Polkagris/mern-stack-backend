@@ -26,7 +26,11 @@ const userSchema = new Schema({
         trim: true,
         minlength: 6,
         max: 1024
-    }
+    },
+    exercises: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Exercise'
+    }]
 }, {
         timestamps: true,
     });
