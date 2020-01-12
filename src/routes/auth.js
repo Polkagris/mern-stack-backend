@@ -47,13 +47,13 @@ router.route('/login').post(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.send("Email does not exist.");
 
+    // Check if password match
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send("Invalid password.");
 
-    // Create JWT token
-    // Can be made to expire in for example an hour
+    // User is authenticated -> Create JWT token
     const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, {
-        expiresIn: 3600
+        expiresIn: '1d'
     });
     res.header('auth-token', token).send(token);
 

@@ -19,8 +19,7 @@ router.route('/add').post(async (req, res) => {
         //const date = Date.parse(req.body.date);
 
         const newExercise = new Exercise({
-            description,
-            user
+            description
 
         });
         await newExercise.save()
@@ -69,10 +68,10 @@ router.route('/update/:id').post(async (req, res) => {
     try {
         let toUpdateExercise = await Exercise.findById(req.params.id);
 
-        toUpdateExercise.username = req.body.username;
+
         toUpdateExercise.description = req.body.description;
-        toUpdateExercise.duration = Number(req.body.duration);
-        toUpdateExercise.date = Date.parse(req.body.date);
+        /*         toUpdateExercise.duration = Number(req.body.duration);
+                toUpdateExercise.date = Date.parse(req.body.date); */
 
 
         await toUpdateExercise.save();

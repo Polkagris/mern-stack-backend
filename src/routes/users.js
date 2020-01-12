@@ -2,13 +2,14 @@ const router = require('express').Router();
 let User = require("../models/user.model");
 let Exercise = require("../models/exercise.model");
 
-
+// GET ALL USERS
 router.route('/').get((req, res) => {
     User.find()
         .then((users) => res.json(users))
         .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// ADD A USER
 router.route('/add').post((req, res) => {
     const username = req.body.username;
     const email = req.body.email;
@@ -50,6 +51,7 @@ router.route('/:id').post(async (req, res) => {
     }
 })
 
+// UPDATE USERNAME ONLY
 router.route('/update/:id').post(async (req, res) => {
     try {
         const userToBeUpdated = await User.findById(req.params.id);
@@ -61,6 +63,7 @@ router.route('/update/:id').post(async (req, res) => {
     }
 });
 
+// DELETE USER
 router.route('/:id').delete(async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
