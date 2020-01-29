@@ -47,7 +47,7 @@ router.route('/login').post(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.send("Email does not exist.");
 
-    // Check if password match
+    // Check if password match  
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send("Invalid password.");
 
@@ -55,9 +55,13 @@ router.route('/login').post(async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, {
         expiresIn: '1d'
     });
+
+    //res.cookie('tokenCookie', token, { maxAge: 900000, httpOnly: true });
+
     res.header('auth-token', token).send(token);
 
     res.send('Logged in!');
+
 
 });
 

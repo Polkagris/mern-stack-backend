@@ -2,6 +2,7 @@ const router = require('express').Router();
 let User = require("../models/user.model");
 let Exercise = require("../models/exercise.model");
 
+
 // GET ALL USERS
 router.route('/').get((req, res) => {
     User.find()
@@ -30,8 +31,9 @@ router.route('/:id').get(async (req, res) => {
     try {
         const { id } = req.params;
         const user = await User.findById(id).populate('exercises');
+        //const userDto = new userDto(user);
 
-        res.send(user);
+        res.send({ username: user.username, exercises: user.exercises });
     } catch (error) {
         res.status(400).json("Error: ", error);
     }
