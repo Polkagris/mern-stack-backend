@@ -21,10 +21,12 @@ connection.once('open', () => {
 const exercisesRouter = require('./src/routes/exercises');
 const usersRouter = require('./src/routes/users');
 const authRouter = require('./src/routes/auth');
+const userExerciseRouter = require('./src/routes/userExercises');
 
 app.use('/exercises', exercisesRouter);
 app.use('/users', usersRouter);
 app.use('/user', authRouter);
+app.use('/training', userExerciseRouter);
 
 
 
