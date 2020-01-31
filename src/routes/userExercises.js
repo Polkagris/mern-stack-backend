@@ -6,8 +6,9 @@ const jwt = require('jsonwebtoken');
 
 router.route('/').post(async (req, res) => {
     try {
-
-        const id = jwt.decode(req.body.token)._id;
+        const token = req.body.token;
+        const id = jwt.decode(token)._id;
+        //const id = jwt.decode(req.body.token)._id;
 
         const user = await User.findById(id).populate('exercises');
         //const userDto = new userDto(user);
