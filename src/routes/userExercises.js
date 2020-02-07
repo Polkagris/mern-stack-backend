@@ -6,13 +6,16 @@ const jwt = require('jsonwebtoken');
 
 router.route('/').post(async (req, res) => {
     try {
-        const token = req.body.token;
-        const id = jwt.decode(token)._id;
-        //const id = jwt.decode(req.body.token)._id;
 
+        const token = req.body.token;
+        console.log("test userExercises BETWEEN!----------------------", token);
+        const id = await jwt.decode(token)._id;
+
+        //const id = jwt.decode(req.body.token)._id;
+        console.log("test userExercises before");
         const user = await User.findById(id).populate('exercises');
         //const userDto = new userDto(user);
-
+        console.log("test userExercises after");
         res.send({ username: user.username, exercises: user.exercises });
 
     } catch (error) {
