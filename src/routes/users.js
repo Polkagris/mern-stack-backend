@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let User = require("../models/user.model");
 let Exercise = require("../models/exercise.model");
+const jwt = require('jsonwebtoken');
 
 
 // GET ALL USERS
@@ -39,15 +40,23 @@ router.route('/:id').get(async (req, res) => {
     }
 });
 
-// CREATING A NEW REVIEW AND UPDATING PRODUCT review FIELD
-router.route('/:id').post(async (req, res) => {
+// CREATE NEW EXERCISE BY USER ID
+router.route('/exercise').post(async (req, res) => {
 
     try {
-        const userById = await User.findById(req.params.id).populate('exercises');
+        const token = req.headers.authorization;
+        const id = await jwt.decode(token).id;
+        const user = await User.findById(id).populate('exercises');
+        const newExercise = await Exercise.create(req.body);
+        user.exercises.push(newExercise);
+        user.save();
+
+        res.send(newExercise);
+        /* const userById = await User.findById(req.params.id).populate('exercises');
         const newExercise = await Exercise.create(req.body)
         userById.exercises.push(newExercise);
         userById.save();
-        res.send(newExercise);
+        res.send(newExercise); */
     } catch (error) {
         res.status(400).json("Error: ", error);
     }

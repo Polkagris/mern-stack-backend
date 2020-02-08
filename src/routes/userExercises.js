@@ -2,9 +2,10 @@ const router = require('express').Router();
 let User = require("../models/user.model");
 let Exercise = require("../models/exercise.model");
 const jwt = require('jsonwebtoken');
+const verify = require('../verifyToken.js')
 
 
-router.route('/').post(async (req, res) => {
+router.post('/', verify, async (req, res) => {
     try {
         const token = req.headers.authorization;
         const id = await jwt.decode(token).id;
