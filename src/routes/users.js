@@ -65,6 +65,24 @@ router.post("/exercise", verify, async (req, res) => {
   }
 });
 
+// // DELETE USER
+// router.route("/:id").delete(async (req, res) => {
+//   try {
+//     await User.findByIdAndDelete(req.params.id);
+//     return res.json("User deleted!");
+//   } catch (err) {
+//     res.status(400).json("Error: ", err);
+//   }
+// });
+
+/* kennels.deleteOne({ breed: "Pitbull" }, function(err, result) {
+  if (err) {
+    res.send(err);
+  } else {
+    res.send(result);
+  }
+}); */
+
 // UPDATE USERNAME ONLY
 router.route("/update/:id").post(async (req, res) => {
   try {
