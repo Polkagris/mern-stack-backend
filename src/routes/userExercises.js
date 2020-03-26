@@ -18,7 +18,7 @@ router.post("/", verify, async (req, res) => {
 });
 
 // DELETE USER EXERCISE
-router.delete("/delete-exercise", async (req, res) => {
+router.delete("/delete-exercise", verify, async (req, res) => {
   try {
     const token = req.headers.authorization;
     const id = await jwt.decode(token).id;
